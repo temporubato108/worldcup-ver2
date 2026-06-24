@@ -1,0 +1,10 @@
+{
+  "projectId": "worldcup-ver2",
+  "appId": "1:753840629017:web:0d7f063b05381756b39188",
+  "apiKey": "AIzaSyA3_wkhQEPUpn4b4RwvIVKNKLaySnA6z5I",
+  "authDomain": "worldcup-ver2.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "worldcup-ver2.firebasestorage.app",
+  "messagingSenderId": "753840629017",
+  "measurementId": "G-3R5LTECEXB"
+}

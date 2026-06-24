@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "Class": {
+      "title": "Classroom",
+      "description": "Information about a specific classroom",
+      "type": "object",
+      "properties": {
+        "classCode": {
+          "type": "string",
+          "description": "Unique code for the class (e.g., '6-1', 'sunny-class')"
+        },
+        "className": {
+          "type": "string",
+          "description": "Display name of the classroom (e.g., '하늘초등학교 6학년 1반')"
+        },
+        "teacherName": {
+          "type": "string",
+          "description": "Name of the classroom teacher"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the class was created"
+        }
+      },
+      "required": ["classCode", "className"]
+    },
+    "Prediction": {
+      "title": "Student Prediction",
+      "description": "Match result prediction by a student",
+      "type": "object",
+      "properties": {
+        "studentName": {
+          "type": "string",
+          "description": "Name of the student (2-4 Korean characters)"
+        },
+        "prediction": {
+          "type": "string",
+          "enum": ["대한민국 승", "무승부", "남아프리카공화국 승"],
+          "description": "The predicted match outcome"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the prediction was submitted"
+        }
+      },
+      "required": ["studentName", "prediction", "timestamp"]
+    },
+    "CheeringMessage": {
+      "title": "Cheering Message",
+      "description": "An encouraging message posted by a student",
+      "type": "object",
+      "properties": {
+        "studentName": {
+          "type": "string",
+          "description": "Name of the student who posted the message"
+        },
+        "message": {
+          "type": "string",
+          "description": "Encouragement content (up to 30 characters)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the message was posted"
+        }
+      },
+      "required": ["studentName", "message", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/classes/{classCode}": {
+      "schema": "Class",
+      "description": "Stores details for each classroom"
+    },
+    "/classes/{classCode}/predictions/{studentName}": {
+      "schema": "Prediction",
+      "description": "Stores each student's match prediction keyed by their name"
+    },
+    "/classes/{classCode}/cheering_messages/{messageId}": {
+      "schema": "CheeringMessage",
+      "description": "Stores user cheering messages for a class"
+    }
+  }
+}

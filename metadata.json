@@ -1,0 +1,8 @@
+{
+  "name": "월드컵 승부예측 및 통계",
+  "description": "월드컵 한국과 남아프리카 공화국의 경기의 승부예측을 하고, 결과를 통계로 확인하는 웹앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

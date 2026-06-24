@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>초등학교 학급 월드컵 응원전! ⚽🇰🇷</title>
+    <!-- Redirect to trailing slash on GitHub Pages if missing, to prevent asset 404s -->
+    <script>
+      try {
+        if (window.location.hostname.endsWith('github.io') && 
+            !window.location.pathname.endsWith('/') && 
+            !window.location.pathname.endsWith('.html')) {
+          window.location.replace(window.location.href + '/');
+        }
+      } catch (e) {
+        console.warn("Location redirect check bypassed:", e);
+      }
+    </script>
+    <!-- Tailwind compiled stylesheet via Vite -->
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 md:h-screen md:overflow-hidden font-sans text-slate-800 antialiased selection:bg-rose-500 selection:text-white flex flex-col">
+    
+    <!-- Header bar -->
+    <header class="bg-white border-b border-slate-200/60 px-4 py-4 shrink-0 flex items-center shadow-2xs">
+      <div class="max-w-6xl mx-auto w-full flex flex-wrap justify-between items-center gap-3">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center justify-center bg-rose-100 text-rose-700 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider animate-bounce">
+            🏆 class event
+          </span>
+          <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-900 flex items-center gap-1.5 flex-wrap">
+            <span>우리 반 월드컵 응원단!</span>
+          </h1>
+        </div>
+        <div class="flex items-center gap-2.5 text-xs font-bold">
+          <button 
+            type="button" 
+            onclick="openInviteModal()" 
+            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-lg px-2.5 py-1.5 text-xs font-extrabold cursor-pointer transition-all flex items-center gap-1"
+          >
+            💌 초대장 / QR
+          </button>
+          <span 
+            id="header-class-code-badge"
+            class="bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg px-2.5 py-1.5 text-xs font-extrabold flex items-center gap-1.5 shadow-2xs"
+          >
+            🔑 초대코드: <span id="header-class-code-text" class="font-black">----</span>
+          </span>
+          <a href="./results.html" class="bg-rose-600 hover:bg-rose-700 text-white rounded-lg px-3 py-1.5 text-xs font-black transition-all flex items-center gap-1 shadow-xs">
+            📊 결과판 확인 &rarr;
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-1 overflow-hidden p-4">
+      <div class="max-w-6xl mx-auto h-full grid grid-cols-1 md:grid-cols-12 gap-5">
+        
+        <!-- LEFT COLUMN: Compact Widgets (Predict Ticket + Cheering Box) -->
+        <div class="md:col-span-5 flex flex-col gap-4 overflow-y-auto md:overflow-hidden pr-1 h-full max-h-full pb-4">
+          
+          <!-- 1. MATCH BANNER TICKET (Compressed height) -->
+          <div class="ticket border border-slate-200/60 overflow-hidden relative shadow-xs shrink-0">
+            <!-- Red stadium-colored Ticket Header (Enlarged) -->
+            <div class="bg-rose-600 text-white px-4 sm:px-6 py-5 sm:py-6 relative overflow-hidden shine-effect">
+              <!-- Background soccer design -->
+              <div class="absolute -right-4 -bottom-4 opacity-10 text-7xl font-black rotate-12 select-none">⚽</div>
+              
+              <div class="flex justify-between items-center mb-4">
+                <p class="text-[10px] font-bold tracking-widest uppercase opacity-85 font-mono">ADMIT ONE • CLASS MATCHUP</p>
+                <span class="bg-white/20 text-white font-mono text-[10px] px-2.5 py-0.5 rounded-xs font-bold">
+                  06-25 경기
+                </span>
+              </div>
+              
+              <!-- STADIUM MATCH MATCHUP CARDS -->
+              <div class="flex items-center justify-between bg-black/15 px-3 sm:px-5 py-3 sm:py-3.5 rounded-xl border border-white/10 backdrop-blur-xs">
+                <div class="flex items-center gap-1.5 sm:gap-3 min-w-0 shrink">
+                  <img src="https://flagcdn.com/w80/kr.png" alt="South Korea Flag" class="w-8 h-5.5 sm:w-12 sm:h-8 object-cover rounded shadow-md border border-white/20 animate-float shrink-0" referrerPolicy="no-referrer">
+                  <span class="text-xs sm:text-base md:text-lg font-black tracking-tight truncate">대한민국</span>
+                </div>
+                <div class="font-black italic text-rose-300 font-mono text-[10px] sm:text-xs md:text-sm px-1.5 sm:px-2.5 shrink-0 select-none">VS</div>
+                <div class="flex items-center gap-1.5 sm:gap-3 flex-row-reverse min-w-0 shrink">
+                  <img src="https://flagcdn.com/w80/za.png" alt="South Africa Flag" class="w-8 h-5.5 sm:w-12 sm:h-8 object-cover rounded shadow-md border border-white/20 animate-float shrink-0" style="animation-delay: 1.5s;" referrerPolicy="no-referrer">
+                  <span class="text-xs sm:text-base md:text-lg font-black tracking-tight truncate">남아공</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="ticket-cut-left"></div>
+            <div class="ticket-cut-right"></div>
+            <div class="ticket-divider"></div>
+          </div>
+
+          <!-- 2. PREDICTION FORM COMPACT BOX -->
+          <div class="bg-white rounded-2xl border border-slate-200/60 shadow-xs p-5 flex-1 flex flex-col gap-4 min-h-0">
+            <div class="flex items-center gap-1.5 pb-2.5 border-b border-slate-100 shrink-0">
+              <span class="text-base">🎫</span>
+              <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">승부 예측 이벤트</h3>
+              <span class="text-[9px] bg-rose-50 text-rose-500 px-1.5 py-0.5 rounded-full font-bold ml-auto shrink-0">1인 1회 제한</span>
+            </div>
+
+            <form id="prediction-form" onsubmit="submitPrediction(event)" class="flex-1 flex flex-col justify-between gap-4 min-h-0">
+              <div class="space-y-3.5 flex-1 flex flex-col justify-center min-h-0">
+                <!-- Name Input -->
+                <div class="space-y-1 shrink-0">
+                  <label for="predict-student-name" class="block text-[11px] font-bold text-slate-500">
+                    학생 이름
+                  </label>
+                  <input 
+                    type="text" 
+                    id="predict-student-name" 
+                    placeholder="이름 (한글 2~4자)" 
+                    maxlength="4"
+                    pattern="[가-힣]{2,4}"
+                    title="한글 2~4글자만 입력 가능합니다 (공백 없이)"
+                    class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-2 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white focus:border-rose-500 transition-all placeholder:text-slate-400 placeholder:font-normal"
+                    required
+                  />
+                </div>
+
+                <!-- Option Select Cards -->
+                <div class="space-y-1.5 flex-1 flex flex-col justify-center min-h-0">
+                  <label class="block text-[11px] font-bold text-slate-500 shrink-0">
+                    경기 결과 예측 선택
+                  </label>
+                  <input type="hidden" id="match-prediction" value="" />
+                  <div class="grid grid-cols-3 gap-2 shrink-0">
+                    <button 
+                      type="button" 
+                      id="predict-korea" 
+                      onclick="selectPrediction('korea', '대한민국 승')"
+                      class="predict-card border border-slate-200 rounded-lg py-2 px-1 text-center bg-white hover:border-rose-300 transition-all flex flex-col items-center justify-center min-h-[58px]"
+                    >
+                      <img src="https://flagcdn.com/w40/kr.png" alt="KR" class="w-6 h-4 object-cover rounded-xs shadow-xs mb-1 mx-auto block" referrerPolicy="no-referrer">
+                      <p class="text-[10px] font-extrabold truncate">대한민국 승</p>
+                      <span id="ratio-korea" class="hidden text-[10px] font-black mt-1 text-rose-600"></span>
+                    </button>
+
+                    <button 
+                      type="button" 
+                      id="predict-draw" 
+                      onclick="selectPrediction('draw', '무승부')"
+                      class="predict-card border border-slate-200 rounded-lg py-2 px-1 text-center bg-white hover:border-amber-300 transition-all flex flex-col items-center justify-center min-h-[58px]"
+                    >
+                      <div class="text-xs mb-1 select-none text-center">🤝</div>
+                      <p class="text-[10px] font-extrabold truncate">무승부</p>
+                      <span id="ratio-draw" class="hidden text-[10px] font-black mt-1 text-amber-600"></span>
+                    </button>
+
+                    <button 
+                      type="button" 
+                      id="predict-southafrica" 
+                      onclick="selectPrediction('southafrica', '남아프리카공화국 승')"
+                      class="predict-card border border-slate-200 rounded-lg py-2 px-1 text-center bg-white hover:border-emerald-300 transition-all flex flex-col items-center justify-center min-h-[58px]"
+                    >
+                      <img src="https://flagcdn.com/w40/za.png" alt="ZA" class="w-6 h-4 object-cover rounded-xs shadow-xs mb-1 mx-auto block" referrerPolicy="no-referrer">
+                      <p class="text-[10px] font-extrabold truncate">남아공 승</p>
+                      <span id="ratio-southafrica" class="hidden text-[10px] font-black mt-1 text-emerald-600"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button 
+                type="submit" 
+                id="predict-submit-btn"
+                class="w-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold py-2.5 px-4 rounded-lg shadow-xs hover:shadow-sm transition-all text-xs tracking-wide flex justify-center items-center gap-1 cursor-pointer border-none shrink-0"
+              >
+                <span>🎫 예측 투표 제출</span>
+              </button>
+            </form>
+
+            <!-- Real-time Stats & Countdown Info under Submission -->
+            <div class="bg-slate-50 border border-slate-100 rounded-lg p-3 space-y-1.5 text-[11px] font-bold text-slate-600 shrink-0">
+              <div class="flex justify-between items-center px-1">
+                <span>현재 예측 참여 인원</span>
+                <span class="text-slate-900 font-extrabold"><span id="prediction-participant-count" class="text-rose-600 font-black">0</span>명 참여 중</span>
+              </div>
+              <div class="flex justify-between items-center px-1 border-t border-slate-200/50 pt-1.5 font-bold">
+                <span>경기 시작(마감) 남은 시간</span>
+                <span id="game-countdown-timer" class="text-rose-600 font-mono font-extrabold">--일 --시간 --분 --초</span>
+              </div>
+            </div>
+
+            <div id="predict-success-alert" class="hidden bg-emerald-500 text-white p-2.5 rounded-lg text-center text-xs font-semibold animate-pulse shrink-0">
+              🎉 승부예측 참여가 완료되었습니다.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: High-density widget list -->
+        <div class="md:col-span-7 flex flex-col h-full max-h-full pb-4 overflow-y-auto md:overflow-hidden pr-1">
+
+          <!-- RIGHT COLUMN: High-density, vertical scroll-contained Cheering Screen with Integrated Message form -->
+          <div class="flex-1 flex flex-col min-h-0 h-full bg-white rounded-2xl border border-slate-200/75 shadow-xs overflow-hidden">
+          
+            <!-- Live Board Header -->
+            <div class="bg-slate-900 text-white px-4 py-3.5 flex justify-between items-center shrink-0">
+              <div class="flex items-center gap-2">
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                </span>
+                <h2 class="text-xs sm:text-sm font-extrabold tracking-tight">우리 반 실시간 응원 전광판 📣</h2>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <span id="countdown-indicator" class="text-[10px] font-mono font-bold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-xs">
+                  10초 후 갱신
+                </span>
+                <button onclick="fetchCheeringData()" class="p-1 rounded hover:bg-slate-800 text-slate-300 hover:text-white transition-all text-xs cursor-pointer" title="수동 갱신">
+                  🔄
+                </button>
+              </div>
+            </div>
+
+            <!-- Integrated Cheering Form on Top of the Board -->
+            <div class="bg-slate-50 border-b border-slate-200/80 p-4 shrink-0 space-y-3">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">💬</span>
+                <h3 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">응원 메시지 한마디 남기기</h3>
+                <span class="text-[9px] bg-white text-slate-500 border border-slate-200/80 px-2 py-0.5 rounded-full font-bold ml-auto shrink-0">누구나 무제한</span>
+              </div>
+
+              <form id="cheering-form" onsubmit="submitCheeringMessage(event)" class="space-y-3">
+                <div class="grid grid-cols-12 gap-2">
+                  <!-- Name Input (Col span 3 - Reduced Size) -->
+                  <div class="col-span-3 space-y-1">
+                    <label for="cheer-student-name" class="block text-[10px] font-bold text-slate-500">
+                      작성자
+                    </label>
+                    <input 
+                      type="text" 
+                      id="cheer-student-name" 
+                      placeholder="이름" 
+                      maxlength="4"
+                      pattern="[가-힣]{2,4}"
+                      title="한글 2~4글자만 입력 가능합니다 (공백 없이)"
+                      class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white focus:border-rose-500 transition-all placeholder:text-slate-400"
+                      required
+                    />
+                  </div>
+                  <!-- Message Input (Col span 9 - Expanded Size) -->
+                  <div class="col-span-9 space-y-1">
+                    <div class="flex justify-between items-center">
+                      <label for="cheering-msg" class="block text-[10px] font-bold text-slate-500">
+                        응원 문구 (30자)
+                      </label>
+                      <span id="char-count-badge" class="font-mono text-[9px] font-bold text-slate-400">0/30</span>
+                    </div>
+                    <input 
+                      type="text" 
+                      id="cheering-msg" 
+                      placeholder="선수들을 응원하는 메세지를 남겨주세요." 
+                      maxlength="30"
+                      oninput="updateCharCount(this)"
+                      class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white focus:border-rose-500 transition-all placeholder:text-slate-400"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                  type="submit" 
+                  id="cheering-submit-btn"
+                  class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-2 px-4 rounded-lg shadow-xs hover:shadow-sm transition-all text-xs tracking-wide flex justify-center items-center gap-1 cursor-pointer border-none"
+                >
+                  <span>🚀 실시간 응원전광판에 올리기</span>
+                </button>
+              </form>
+
+              <div id="cheer-success-alert" class="hidden bg-emerald-500 text-white p-2 rounded-lg text-center text-xs font-semibold animate-pulse">
+                ✨ 응원메시지가 등록되었습니다!
+              </div>
+            </div>
+
+            <!-- Scrollable Feed list (Takes up all remaining vertical space) -->
+            <div id="cheering-board-feed" class="flex-1 overflow-y-auto p-4 space-y-2 bg-slate-50/50 min-h-0">
+              <div class="text-center py-16 text-slate-400 text-xs font-semibold">
+                응원 메시지를 불러오고 있습니다... ⚽
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Invisible Canvas-based simple Confetti Container (when submitted) -->
+    <div id="confetti-holder" class="pointer-events-none fixed inset-0 z-40 overflow-hidden"></div>
+
+    <!-- Class Gate Overlay -->
+    <div id="class-gate-overlay" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <!-- Banner -->
+        <div class="bg-rose-600 p-6 text-white text-center relative">
+          <!-- Decorative soccer balls -->
+          <div class="absolute right-4 top-2 opacity-15 text-4xl select-none">⚽</div>
+          <div class="absolute left-4 bottom-2 opacity-15 text-3xl select-none">🥅</div>
+          <span class="text-4xl block mb-2 animate-bounce">⚽</span>
+          <h2 class="text-xl font-black tracking-tight">초등 학급 월드컵 응원전</h2>
+          <p class="text-[11px] opacity-90 mt-1 font-extrabold">우리 반만의 실시간 승부예측 & 응원판!</p>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="flex border-b border-slate-100 bg-slate-50">
+          <button id="tab-join" onclick="switchClassTab('join')" class="flex-1 py-3.5 text-xs sm:text-sm font-black text-rose-600 border-b-2 border-rose-600 focus:outline-none transition-all cursor-pointer">
+            🏫 우리 반 입장하기
+          </button>
+          <button id="tab-create" onclick="switchClassTab('create')" class="flex-1 py-3.5 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 focus:outline-none transition-all cursor-pointer">
+            ✨ 학급개설
+          </button>
+        </div>
+        
+        <div class="p-6">
+          <!-- JOIN FORM -->
+          <form id="class-join-form" onsubmit="handleJoinClassForm(event)" class="space-y-4">
+            <div class="space-y-1">
+              <label for="gate-join-code" class="block text-[11px] font-black text-slate-500">학급 초대코드</label>
+              <input type="text" id="gate-join-code" placeholder="숫자 4자리 입력" maxlength="4" pattern="[0-9]{4}" title="숫자 4자리만 입력 가능합니다" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold uppercase focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white" required />
+              <p class="text-[10px] text-slate-400 font-medium">선생님이 알려주신 4자리 학급 코드를 입력합니다.</p>
+            </div>
+            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs cursor-pointer border-none mt-2">
+              ⚽ 학급 입장 & 응원단 가입
+            </button>
+          </form>
+
+          <!-- CREATE FORM -->
+          <form id="class-create-form" onsubmit="handleCreateClassForm(event)" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <label for="gate-create-code" class="block text-[11px] font-black text-slate-500">학급 초대코드</label>
+              <input type="text" id="gate-create-code" placeholder="숫자 4자리 설정" maxlength="4" pattern="[0-9]{4}" title="숫자 4자리만 입력 가능합니다" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold uppercase focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white" required />
+              <p class="text-[10px] text-slate-400 font-medium">학급 학생들이 접속할 고유 숫자 4자리입니다.</p>
+            </div>
+            <div class="space-y-1">
+              <label for="gate-create-auth" class="block text-[11px] font-black text-slate-500">교사 인증코드</label>
+              <input type="password" id="gate-create-auth" placeholder="인증코드를 입력하세요" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-rose-500 focus:bg-white" required />
+            </div>
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs cursor-pointer border-none mt-2">
+              🚀 새로운 학급 개설 & 입장하기
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invite Modal -->
+    <div id="invite-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-3xl shadow-2xl border border-slate-150 w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200 p-6 space-y-5">
+        <div class="text-center">
+          <span class="text-3xl">💌</span>
+          <h3 class="text-base font-black text-slate-900 mt-2">학급 친구들 초대하기</h3>
+          <p class="text-[11px] font-bold text-slate-500 mt-1">친구들에게 초대코드나 QR코드를 공유하세요!</p>
+        </div>
+        
+        <!-- QR Code Dynamic Renderer -->
+        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center space-y-2">
+          <img id="invite-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=loading" alt="Class QR Code" class="w-36 h-36 bg-white border border-slate-200 rounded-lg p-1 block shadow-3xs" />
+          <span class="text-[10px] font-black text-indigo-700 bg-indigo-50 px-3 py-0.5 rounded-full border border-indigo-100" id="invite-code-label">CODE: 6-1</span>
+        </div>
+        
+        <!-- Copy invitation Link -->
+        <div class="space-y-1.5">
+          <label class="block text-[10px] font-black text-slate-400">초대 링크 주소</label>
+          <div class="flex gap-1.5">
+            <input type="text" id="invite-link-input" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-[11px] font-mono font-bold text-slate-600 focus:outline-none" />
+            <button onclick="copyInviteLink()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-3 rounded-lg text-xs cursor-pointer border-none transition-all">복사</button>
+          </div>
+        </div>
+        
+        <button onclick="closeInviteModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold py-2.5 rounded-xl text-xs cursor-pointer border-none transition-all">
+          닫기
+        </button>
+      </div>
+    </div>
+
+    <!-- Apps logic and interactions -->
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

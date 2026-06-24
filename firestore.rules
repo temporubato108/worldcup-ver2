@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Match Classes
+    match /classes/{classCode} {
+      allow read: if classCode != null && classCode != "";
+      allow create, update: if classCode != null && classCode != ""
+        && 'classCode' in request.resource.data
+        && 'className' in request.resource.data
+        && request.resource.data.classCode == classCode;
+      allow delete: if false;
+
+      // Subcollection for predictions
+      match /predictions/{studentName} {
+        allow read: if classCode != null && classCode != "";
+        allow create, update: if classCode != null && classCode != "" 
+          && studentName != null && studentName != ""
+          && 'studentName' in request.resource.data
+          && 'prediction' in request.resource.data
+          && request.resource.data.studentName is string
+          && request.resource.data.prediction is string;
+        allow delete: if false;
+      }
+
+      // Subcollection for cheering messages
+      match /cheering_messages/{messageId} {
+        allow read: if classCode != null && classCode != "";
+        allow create: if classCode != null && classCode != "" 
+          && messageId != null && messageId != ""
+          && 'studentName' in request.resource.data
+          && 'message' in request.resource.data
+          && request.resource.data.studentName is string
+          && request.resource.data.message is string;
+        allow update, delete: if false;
+      }
+    }
+  }
+}
