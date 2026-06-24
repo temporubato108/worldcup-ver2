@@ -16,6 +16,10 @@ import {
   serverTimestamp 
 } from "firebase/firestore";
 
+// Target closing time: June 25, 10:00 AM KST (01:00 AM UTC) dynamically adjusting to the current year for robust testing
+const currentYear = new Date().getFullYear();
+const CLOSING_TIME_MS = Date.UTC(currentYear, 5, 25, 1, 0, 0);
+
 // --- Custom Firestore Error Handler following strict skill guidelines ---
 function handleFirestoreError(error, operationType, path) {
   const errInfo = {
@@ -160,11 +164,16 @@ async function initApp() {
     }
   }
 
+  // Start match closing countdown immediately so it displays instantly
+  startMatchCountdown();
+
   let classParam = urlParams.get('class');
+  let hasDirectClassParam = false;
 
   if (classParam && classParam !== 'none') {
     classParam = classParam.trim().toLowerCase();
     safeStorage.setItem('current_class_code', classParam);
+    hasDirectClassParam = true;
   }
 
   const savedClassCode = safeStorage.getItem('current_class_code');
@@ -174,6 +183,7 @@ async function initApp() {
     openClassGate();
   } else {
     appState.classCode = savedClassCode;
+    // Bypasses the gate overlay automatically if code is saved!
     closeClassGate();
     await loadClassAndInitRealtime();
   }
@@ -185,9 +195,6 @@ async function initApp() {
     if (pName) pName.value = appState.studentName;
     if (cName) cName.value = appState.studentName;
   }
-
-  // Start real-time match closing countdown
-  startMatchCountdown();
 }
 
 /**
@@ -766,7 +773,7 @@ window.resetClassCode = function() {
   }
 };
 
-window.openClassGate = function() {
+function openClassGate() {
   const gate = document.getElementById('class-gate-overlay');
   if (gate) {
     gate.classList.remove('hidden');
@@ -775,7 +782,8 @@ window.openClassGate = function() {
     const gateCode = document.getElementById('gate-join-code');
     if (gateCode && savedCode) gateCode.value = savedCode;
   }
-};
+}
+window.openClassGate = openClassGate;
 
 function closeClassGate() {
   const gate = document.getElementById('class-gate-overlay');
@@ -798,19 +806,10 @@ window.openInviteModal = function() {
 
   // Populate info
   const label = document.getElementById('invite-code-label');
-  const qrImg = document.getElementById('invite-qr');
-  const linkInput = document.getElementById('invite-link-input');
+  const codeInput = document.getElementById('invite-code-input');
 
-  if (label) label.textContent = `초대코드: ${classCode.toUpperCase()}`;
-  
-  // Construct dynamic invite link
-  const inviteLink = `${window.location.origin}${window.location.pathname}?class=${classCode}`;
-  if (linkInput) linkInput.value = inviteLink;
-
-  // Render dynamic QR Code via qrserver API
-  if (qrImg) {
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(inviteLink)}`;
-  }
+  if (label) label.textContent = classCode.toUpperCase();
+  if (codeInput) codeInput.value = classCode.toUpperCase();
 
   modal.classList.remove('hidden');
 };
@@ -820,25 +819,27 @@ window.closeInviteModal = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-window.copyInviteLink = function() {
-  const linkInput = document.getElementById('invite-link-input');
-  if (linkInput) {
-    linkInput.select();
-    linkInput.setSelectionRange(0, 99999); // for mobile
+window.copyInviteCode = function() {
+  const codeInput = document.getElementById('invite-code-input');
+  if (codeInput) {
+    codeInput.select();
+    codeInput.setSelectionRange(0, 99999); // for mobile
     
     try {
-      navigator.clipboard.writeText(linkInput.value);
-      alert("우리 반 전용 초대장 링크가 클립보드에 복사되었습니다! 알림장, 톡방, 클래스팅 등에 공유해보세요! 💌");
+      navigator.clipboard.writeText(codeInput.value).then(() => {
+        alert("우리 반 초대코드가 복사되었습니다! 친구들에게 공유해 보세요. ⚽");
+      }).catch(() => {
+        document.execCommand('copy');
+        alert("우리 반 초대코드가 복사되었습니다! 친구들에게 공유해 보세요. ⚽");
+      });
     } catch (err) {
-      // fallback
       document.execCommand('copy');
-      alert("초대장 링크가 복사되었습니다!");
+      alert("우리 반 초대코드가 복사되었습니다! 친구들에게 공유해 보세요. ⚽");
     }
   }
 };
 
-// Target closing time: June 25, 2026, 10:00 AM KST (01:00 AM UTC)
-const CLOSING_TIME_MS = new Date("2026-06-25T01:00:00Z").getTime();
+// Target closing time: June 25, 2026, 10:00 AM KST (01:00 AM UTC) - Declared at top of file
 
 function isPredictionClosed() {
   return Date.now() >= CLOSING_TIME_MS;

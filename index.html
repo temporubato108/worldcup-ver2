@@ -34,13 +34,6 @@
           </h1>
         </div>
         <div class="flex items-center gap-2.5 text-xs font-bold">
-          <button 
-            type="button" 
-            onclick="openInviteModal()" 
-            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-lg px-2.5 py-1.5 text-xs font-extrabold cursor-pointer transition-all flex items-center gap-1"
-          >
-            💌 초대장 / QR
-          </button>
           <span 
             id="header-class-code-badge"
             class="bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg px-2.5 py-1.5 text-xs font-extrabold flex items-center gap-1.5 shadow-2xs"
@@ -48,7 +41,7 @@
             🔑 초대코드: <span id="header-class-code-text" class="font-black">----</span>
           </span>
           <a href="./results.html" class="bg-rose-600 hover:bg-rose-700 text-white rounded-lg px-3 py-1.5 text-xs font-black transition-all flex items-center gap-1 shadow-xs">
-            📊 결과판 확인 &rarr;
+            📊 통계 & 예측결과 확인 &rarr;
           </a>
         </div>
       </div>
@@ -306,8 +299,8 @@
           <div class="absolute right-4 top-2 opacity-15 text-4xl select-none">⚽</div>
           <div class="absolute left-4 bottom-2 opacity-15 text-3xl select-none">🥅</div>
           <span class="text-4xl block mb-2 animate-bounce">⚽</span>
-          <h2 class="text-xl font-black tracking-tight">초등 학급 월드컵 응원전</h2>
-          <p class="text-[11px] opacity-90 mt-1 font-extrabold">우리 반만의 실시간 승부예측 & 응원판!</p>
+          <h2 class="text-xl font-black tracking-tight">우리 반 월드컵 응원단</h2>
+          <p class="text-[11px] opacity-90 mt-1 font-extrabold">함께 나누는 실시간 월드컵 응원전!</p>
         </div>
         
         <!-- Tabs -->
@@ -329,7 +322,7 @@
               <p class="text-[10px] text-slate-400 font-medium">선생님이 알려주신 4자리 학급 코드를 입력합니다.</p>
             </div>
             <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs cursor-pointer border-none mt-2">
-              ⚽ 학급 입장 & 응원단 가입
+              학급 입장
             </button>
           </form>
 
@@ -358,21 +351,21 @@
         <div class="text-center">
           <span class="text-3xl">💌</span>
           <h3 class="text-base font-black text-slate-900 mt-2">학급 친구들 초대하기</h3>
-          <p class="text-[11px] font-bold text-slate-500 mt-1">친구들에게 초대코드나 QR코드를 공유하세요!</p>
+          <p class="text-[11px] font-bold text-slate-500 mt-1">친구들에게 4자리 학급 초대코드를 공유하세요!</p>
         </div>
         
-        <!-- QR Code Dynamic Renderer -->
-        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center space-y-2">
-          <img id="invite-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=loading" alt="Class QR Code" class="w-36 h-36 bg-white border border-slate-200 rounded-lg p-1 block shadow-3xs" />
-          <span class="text-[10px] font-black text-indigo-700 bg-indigo-50 px-3 py-0.5 rounded-full border border-indigo-100" id="invite-code-label">CODE: 6-1</span>
+        <!-- Code Display -->
+        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col items-center justify-center space-y-1.5">
+          <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">우리 반 초대 코드</span>
+          <span class="text-3xl font-black text-rose-600 bg-rose-50 px-6 py-2 rounded-xl border border-rose-200 tracking-widest font-mono" id="invite-code-label">----</span>
         </div>
         
-        <!-- Copy invitation Link -->
+        <!-- Copy invitation Code -->
         <div class="space-y-1.5">
-          <label class="block text-[10px] font-black text-slate-400">초대 링크 주소</label>
+          <label class="block text-[10px] font-black text-slate-400">초대코드 복사</label>
           <div class="flex gap-1.5">
-            <input type="text" id="invite-link-input" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-[11px] font-mono font-bold text-slate-600 focus:outline-none" />
-            <button onclick="copyInviteLink()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-3 rounded-lg text-xs cursor-pointer border-none transition-all">복사</button>
+            <input type="text" id="invite-code-input" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-center text-xs font-mono font-black text-slate-800 focus:outline-none" />
+            <button onclick="copyInviteCode()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-4 rounded-lg text-xs cursor-pointer border-none transition-all">코드 복사</button>
           </div>
         </div>
         
